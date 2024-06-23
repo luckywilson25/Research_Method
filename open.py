@@ -5,7 +5,6 @@ cam = cv2.VideoCapture(0)
 
 cv2.namedWindow("QR Scanner Barcode")
 
-# Buka file teks untuk menulis data barcode
 with open("QR code_data.txt", "w") as barcode_file:
     while True:
         ret, frame = cam.read()
@@ -14,15 +13,13 @@ with open("QR code_data.txt", "w") as barcode_file:
             break
         cv2.imshow("QR Scanner Barcode", frame)
 
-        # Decode barcodes
         barcodes = decode(frame)
         
         for barcode in barcodes:
-            # Extract barcode data and write it to the text file
+
             data = barcode.data.decode("utf-8")
             barcode_file.write(f"QR Scanner data:\n{data}\n")
 
-            # Draw a rectangle around the barcode on the frame
             points = barcode.polygon
             if len(points) == 4:
                 pts = [(point.x, point.y) for point in points]
@@ -38,7 +35,6 @@ with open("QR code_data.txt", "w") as barcode_file:
             print("Escape hit, closing...")
             break
 
-# Close the text file
 barcode_file.close()
 
 cam.release()
